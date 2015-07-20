@@ -59,13 +59,14 @@
 			$errorConfirm_password = "Vos mots de passe ne correspondent pas !";
 		}
 		
+		
 
 		$sql = "INSERT INTO users(id, username, email, password, date_created, date_modified)
 				VALUES (NULL, :username, :email, :password, NOW(), NULL)";
 		$sth = $dbh->prepare($sql);
 		$sth -> bindValue(':username' , $username);
 		$sth -> bindValue(':email' , $email);
-		$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+		$hashedPassword = password_hash($password, PASSWORD_DEFAULT);//https://github
 		$sth -> bindValue(':password' , $hashedPassword);
 		$sth -> execute();
 
