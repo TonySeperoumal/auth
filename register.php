@@ -3,12 +3,10 @@
 	include('db_connexion.php');
 
 	$email = "";
-	$username = "";
-	$password = "";
+	$username = "";	
 	$confirm_password = "";
 	$errorEmail = "";
-	$errorUsername = "";
-	$errorPassword = "";
+	$errorUsername = "";	
 	$errorConfirm_password = "";
 
 	if (!empty($_POST)){
@@ -20,20 +18,31 @@
 
 
 		if (empty($email)){
-			$errorEmail = "Veuillez entrer votre email";
+			$errorEmail = "Veuillez entrer votre email !";
 		}
-		if (empty($username)){
-			$errorUsername = "Veuillez indiquer votre nom";
+		else if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
+			$errorEmail = "Votre email n'est pas valide !";
 		}
-		if (empty($password)){
-			$errorPassword = "Entrez votre mot de passe";
-		}
-		if (empty($confirm_password)){
-			$errorConfirm_password = "Confirmez votre mot de passe";
+		else if (strlen($email) > 100){
+			$errorEmail ="Votre email est trop long.";
 		}
 
-		$sql = "INSERT INTO users(username, email, password)
-				VALUES (:username, :email, :password)";
+
+		if (empty($username)){
+			$errorUsername = "Veuillez indiquer votre pseudo !";
+		}
+		else if (strlen($username) > 100){
+			$errorUsername = "Votre pseudo est trop long.";
+		}
+
+
+		if ($password != $confirm_password){
+			$errorConfirm_password = "Vos mots de passe ne correspondent pas !";
+		}
+		
+
+		$sql = "INSERT INTO users(id, username, email, password, date_created, date_modified)
+				VALUES (NULL, :username, :email, :password, NOW(), NULL)";
 		$sth = $dbh->prepare($sql);
 		$sth -> bindValue(':username' , $username);
 		$sth -> bindValue(':email' , $email);
@@ -41,7 +50,7 @@
 		$sth -> execute();
 
 	}
-	print_r($_POST);
+	
 
 
 
@@ -79,8 +88,7 @@
 			</div>
 			<div class="form-row">
 				<label for="password">Mot de passe
-					<input type="password" name="password" id="password">
-					<div class="help-block text-danger"><?php echo $errorPassword; ?></div>
+					<input type="password" name="password" id="password">					
 				</label>				
 			</div>
 			<div class="form-row">
