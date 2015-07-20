@@ -26,6 +26,16 @@
 		else if (strlen($email) > 100){
 			$errorEmail ="Votre email est trop long.";
 		}
+		else{
+			$sql = "SELECT email FROM users WHERE email = :email";
+			$sth = $dbh->prepare($sql);
+			$sth->execute(array(":email" => $email));
+			$foundEmail = $sth->fetchColumn();
+
+			if ($foundEmail){
+				$errorEmail = "Cet email est déjà enregistré ici !";
+			}
+		}
 
 
 		if (empty($username)){
@@ -34,6 +44,15 @@
 		else if (strlen($username) > 100){
 			$errorUsername = "Votre pseudo est trop long.";
 		}
+		else{
+			$sql = "SELECT username FROM users WHERE username = :username";
+			$sth = $dbh->prepare($sql);
+			$sth->execute(array(":username" => $username));
+			$foundUsername = $sth->fetchColumn();
+
+			if ($foundUsername){
+				$errorUsername = "Ce pseudo est déjà enregistré ici !";
+			}
 
 
 		if ($password != $confirm_password){
@@ -51,6 +70,7 @@
 		$sth -> execute();
 
 	}
+}
 	
 
 
