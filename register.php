@@ -46,7 +46,8 @@
 		$sth = $dbh->prepare($sql);
 		$sth -> bindValue(':username' , $username);
 		$sth -> bindValue(':email' , $email);
-		$sth -> bindValue(':password' , $password);
+		$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+		$sth -> bindValue(':password' , $hashedPassword);
 		$sth -> execute();
 
 	}
