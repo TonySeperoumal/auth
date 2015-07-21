@@ -27,7 +27,17 @@
 		else if (strlen($email) > 100){
 			$errorEmail ="Votre email est trop long.";
 		}
+		//username est email
+		else if (filter_var($username, FILTER_VALIDATE_EMAIL)){
+			$errorEmail = "Veuillez ne pas utiliser d'email comme pseudo !";
+
+		}
+		//contient uniquement des lettres, des chiffres et des tirets et underscore
+		else if (){
+
+		}
 		else{
+			//username déjà présent dans la base ?
 			$sql = "SELECT email FROM users WHERE email = :email";
 			$sth = $dbh->prepare($sql);
 			$sth->execute(array(":email" => $email));
