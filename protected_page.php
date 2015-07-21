@@ -1,6 +1,16 @@
 <?php
+	session_start();
 	include('config.php');
 	include('db_connexion.php');
+
+	echo '<pre>';
+	print_r($_SESSION);
+	echo '</pre>';
+
+	if (empty($_SESSION['user'])){
+		header('location: login.php');
+		die();
+	}
 
 
 
@@ -9,11 +19,13 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Document</title>
+	<title>Profil</title>
 </head>
 <body>
 	<div class="container">
-		<h1>Bienvenue</h1>
+		<a href="logout.php" title="Me déconnecter de mon compte">Déconnexion</a>
+
+		<h1>Bienvenue <?php echo $_SESSION['user']['username']; ?></h1>
 		
 
 	</div>
