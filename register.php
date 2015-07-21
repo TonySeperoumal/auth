@@ -1,5 +1,6 @@
 <?php
-	
+
+	session_start();	
 	include('config.php');
 	include('db_connexion.php');
 
@@ -87,15 +88,34 @@
 		}
 		
 		
-
+		if ($errorEmail == "" && $errorUsername == "" && $errorConfirm_password == ""){
 		$sql = "INSERT INTO users(id, username, email, password, date_created, date_modified)
 				VALUES (NULL, :username, :email, :password, NOW(), NULL)";
 		$sth = $dbh->prepare($sql);
 		$sth -> bindValue(':username' , $username);
 		$sth -> bindValue(':email' , $email);
-		$hashedPassword = password_hash($password, PASSWORD_DEFAULT);//https://github
+		$hashedPassword = password_hash($password, PASSWORD_DEFAULT);//https://github.com/ircmaxell/password_compat
 		$sth -> bindValue(':password' , $hashedPassword);
 		$sth -> execute();
+
+
+		//connnecter l'utilisateur programmatiquement
+		//on va recherecher toutes les infos qu'on vient d'insérer (sans le mdp)
+		//
+		$sql = "SELECT id, username, email, date_created, date_modified
+				FROM users
+				WHERE id = :id";
+		$sth = $dbh->prepare($sql);
+		$sth->bindValue(':id', $dbh->lastInsertId());
+		$sth->execute();
+		$user = $sth->fetch();
+
+		//on met l'array dans la session pour connecter le user
+		$_SESSION['user'] = $user;
+		//puis on redirige vers la page protégée
+		header('location: protected_page.php');
+		die();
+		}
 
 	}
 }
