@@ -30,18 +30,23 @@
 		if ($isValidPassword){
 			unset($foundUser['password']);
 			$_SESSION['user'] = $foundUser;
-			echo "good password";
+			header('location: protected_page.php');
+			die();
 
 		}
-		else{
-			echo "wrong password";
+		else{			
+			$_SESSION['login_error'] = "Erreur d'identification !";
+			header('location: login.php');
+			die();		
+
 		}
 
 
 	}
 	else {
-		echo "not found";
-
+		$_SESSION['login_error'] = "Erreur d'identification !";
+		header('location: login.php');
+		die();
 
 	}
 

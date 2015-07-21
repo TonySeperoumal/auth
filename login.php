@@ -1,5 +1,5 @@
 <?php
-
+	session_start();
 	include('config.php');
 
 
@@ -21,6 +21,15 @@
 
 			<button type="submit">Envoyer</button>
 		</form>
+		<?php
+			//si on a stocké un message d'erreur (dans login_handler.php)
+			if (!empty($_SESSION['login_error'])){
+			//affiche le messsage d'erreur
+			 echo $_SESSION['login_error'];
+			//on a affiché le message, alors on peut le virer
+			 unset($_SESSION['login_error']);
+			}
+		?>
 		
 
 
