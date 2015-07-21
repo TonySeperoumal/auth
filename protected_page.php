@@ -2,16 +2,13 @@
 	session_start();
 	include('config.php');
 	include('db_connexion.php');
+	include('fonctions.php');
 
-	echo '<pre>';
-	print_r($_SESSION);
-	echo '</pre>';
 
-	if (empty($_SESSION['user'])){
-		header('location: login.php');
-		die();
-	}
+	pr($_SESSION);
+	
 
+	
 
 
 ?>
