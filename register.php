@@ -27,15 +27,7 @@
 		else if (strlen($email) > 100){
 			$errorEmail ="Votre email est trop long.";
 		}
-		//username est email
-		else if (filter_var($username, FILTER_VALIDATE_EMAIL)){
-			$errorEmail = "Veuillez ne pas utiliser d'email comme pseudo !";
-
-		}
-		//contient uniquement des lettres, des chiffres et des tirets et underscore
-		else if (){
-
-		}
+		
 		else{
 			//username déjà présent dans la base ?
 			$sql = "SELECT email FROM users WHERE email = :email";
@@ -48,12 +40,24 @@
 			}
 		}
 
+		$usernameRegexp = "/^[\p{L}0-9._-]{2,100}$/u";
 
 		if (empty($username)){
 			$errorUsername = "Veuillez indiquer votre pseudo !";
 		}
 		else if (strlen($username) > 100){
 			$errorUsername = "Votre pseudo est trop long.";
+		}
+		//username est email
+		else if (filter_var($username, FILTER_VALIDATE_EMAIL)){
+			$errorUsername = "Veuillez ne pas utiliser d'email comme pseudo !";
+
+		}
+		//contient uniquement des lettres, des chiffres et des tirets et underscore
+		else if (!preg_match($usernameRegexp, $username)){
+
+			$errorUsername = "votre pseudo doit correspondre à /^[\p{L}0-9._-]{2,100}$/u";
+
 		}
 		else{
 			$sql = "SELECT username FROM users WHERE username = :username";
@@ -68,6 +72,18 @@
 
 		if ($password != $confirm_password){
 			$errorConfirm_password = "Vos mots de passe ne correspondent pas !";
+		}
+		else if (strlen($password) <= 6){
+			$errorConfirm_password = "Veuillez saisir un mot de passe d'au moins 7 caracteres !";
+		}
+		else{
+			$containsLetter = preg_match('/[a-zA-Z]/', $password);
+			$containsDigit = preg_match('/\d/', $password);
+			$containsSpecial = preg_match('/[^a-zA-Z\d]/', $password);
+
+			if (!$containsLetter || !$containsDigit || !$containsSpecial){
+				$errorConfirm_password = "Veuillez choisir un mot de passe avec au moins une lettre, un chiffre et un caractere spécial.";
+			}
 		}
 		
 		
