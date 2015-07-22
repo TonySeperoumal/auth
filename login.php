@@ -1,6 +1,10 @@
 <?php
 	session_start();
 	include('config.php');
+	include('db_connexion.php');
+	include('fonctions.php');
+
+	
 
 
 ?>
@@ -19,7 +23,8 @@
 			<input type="text" name="email" placeholder="Email or username">Nom d'utilisateur
 			<input type="password" name="password" placeholder="Password">Mot de passe
 
-			<button type="submit">Envoyer</button>
+			<button type="submit">Envoyer</button><br />
+			<input type="checkbox" name="remember" id="remember" value="1">Restez connecté
 
 			<a href="forgot_password_2.php">Mot de passe oublié</a>
 		</form>
