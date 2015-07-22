@@ -20,6 +20,8 @@
 			<input type="password" name="password" placeholder="Password">Mot de passe
 
 			<button type="submit">Envoyer</button>
+
+			<a href="forgot_password_2.php">Mot de passe oublié</a>
 		</form>
 		<?php
 			//si on a stocké un message d'erreur (dans login_handler.php)

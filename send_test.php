@@ -10,8 +10,8 @@
 	/*
 	ATTENTION : NE PUBLIEZ PAS VOTRE MOT DE PASSE GMAIL DE VOTRE COMPTE PERSO SUR GITHUB !!!!!
 	*/
-	require('config.php');
-	require ("vendor/autoload.php");
+	// require('config.php');
+	// require ("vendor/autoload.php");
 
 
 	//instance de PHPMailer
@@ -32,7 +32,7 @@
 	$mail->SMTPSecure = 'tls';
 	$mail->SMTPAuth = true;
 	$mail->Username = SMTPUSER;
-	$mail->Password = SMTPHOST;
+	$mail->Password = SMTPPASS;
 
 	//qui envoie, et qui reçoit
 	$mail->setFrom('from@example.com', 'Jean Dupont');
@@ -45,10 +45,10 @@
 	$mail->Subject = 'Envoyé par PHP !';
 
 	//message (avec balises possibles)
-	$mail->Body = 'Message envoyé avec <a href="http://localhost/auth/change_password.php">Cliquez ici pour créer un nouveaumot de passe</a>';
+	$mail->Body = 'Message envoyé avec <a href="http://localhost/auth/change_password.php?token='.$token.'">Cliquez ici pour créer un nouveaumot de passe</a>';
 
 	//pièce jointe
-	$mail->addAttachment('image/panda.gif');
+	// $mail->addAttachment('image/panda.gif');
 
 	//send the message, check for errors
 	if (!$mail->send()) {
